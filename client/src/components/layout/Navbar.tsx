@@ -38,22 +38,22 @@ const Navbar = () => {
           </Link>
           
           <div className="hidden md:flex items-center space-x-8">
-            <Link href="/#home" className="text-dark hover:text-primary transition-colors font-medium">
+            <Link href="/" className="text-dark hover:text-primary transition-colors font-medium">
               Home
             </Link>
-            <Link href="/#menu" className="text-dark hover:text-primary transition-colors font-medium">
+            <Link href="/menu" className="text-dark hover:text-primary transition-colors font-medium">
               Menu
             </Link>
-            <Link href="/#about" className="text-dark hover:text-primary transition-colors font-medium">
+            <Link href="/about" className="text-dark hover:text-primary transition-colors font-medium">
               About
             </Link>
-            <Link href="/#gallery" className="text-dark hover:text-primary transition-colors font-medium">
+            <Link href="/gallery" className="text-dark hover:text-primary transition-colors font-medium">
               Gallery
             </Link>
-            <Link href="/#contact" className="text-dark hover:text-primary transition-colors font-medium">
+            <Link href="/contact" className="text-dark hover:text-primary transition-colors font-medium">
               Contact
             </Link>
-            <Link href="/#reservation">
+            <Link href="/reservations">
               <Button className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full">
                 Reservations
               </Button>
@@ -73,22 +73,22 @@ const Navbar = () => {
         
         {mobileMenuOpen && (
           <div className="md:hidden pb-4">
-            <Link href="/#home" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
+            <Link href="/" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
               Home
             </Link>
-            <Link href="/#menu" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
+            <Link href="/menu" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
               Menu
             </Link>
-            <Link href="/#about" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
+            <Link href="/about" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
               About
             </Link>
-            <Link href="/#gallery" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
+            <Link href="/gallery" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
               Gallery
             </Link>
-            <Link href="/#contact" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-dark hover:text-primary">
               Contact
             </Link>
-            <Link href="/#reservation" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-primary font-medium">
+            <Link href="/reservations" onClick={() => setMobileMenuOpen(false)} className="block py-2 text-primary font-medium">
               Reservations
             </Link>
           </div>

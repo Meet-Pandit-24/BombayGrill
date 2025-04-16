@@ -18,11 +18,17 @@ const Menu = () => {
     queryKey: ["/api/menu-items"],
   });
   
+  // Logging for debugging
+  console.log("Active Category:", activeCategory);
+  console.log("Categories:", categories);
+  console.log("Menu Items:", menuItems);
+  
   const filteredItems = menuItems 
     ? activeCategory === "All" 
       ? menuItems 
       : menuItems.filter(item => {
           const category = categories?.find(cat => cat.id === item.categoryId);
+          console.log("Item category:", item.categoryId, category?.name, "comparing with:", activeCategory);
           return category?.name === activeCategory;
         })
     : [];
