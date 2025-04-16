@@ -96,12 +96,12 @@ const GalleryPage = () => {
               {filteredImages.map((image) => (
                 <div 
                   key={image.id} 
-                  className="gallery-item rounded-lg overflow-hidden h-64 cursor-pointer shadow-md hover:shadow-lg transition-shadow"
+                  className="gallery-item rounded-lg overflow-hidden h-64 cursor-pointer shadow-md hover:shadow-lg transition-shadow relative"
                   onClick={() => openLightbox(image)}
                 >
                   <img
                     src={image.image}
-                    alt={image.altText}
+                    alt={image.altText || image.title}
                     className="w-full h-full object-cover transition-transform duration-500"
                   />
                   <div className="absolute inset-0 bg-black bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity flex items-end">

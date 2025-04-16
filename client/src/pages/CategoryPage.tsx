@@ -38,9 +38,24 @@ const CategoryPage = () => {
     }
   }, [categories, categoryName, navigate]);
   
+  // Get an image for each category
+  const getCategoryImage = (categoryName: string) => {
+    // Map category names to appropriate images
+    const categoryImages: Record<string, string> = {
+      'appetizers': 'https://images.unsplash.com/photo-1625938144207-a60be9d6c4dd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+      'main course': 'https://images.unsplash.com/photo-1585937421612-70a008356a82?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+      'breads': 'https://images.unsplash.com/photo-1619535214051-56841e99a4a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+      'desserts': 'https://images.unsplash.com/photo-1516684669134-de6f7c473a2a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80',
+      'beverages': 'https://images.unsplash.com/photo-1544145945-f90425340c7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80'
+    };
+    
+    // Return the matching image URL or a default one
+    return categoryImages[categoryName.toLowerCase()] || 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80';
+  };
+  
   // Filter menu items by category ID
   const categoryItems = menuItems?.filter(
-    item => item.categoryId === category?.id
+    item => category && item.categoryId === category.id
   ) || [];
   
   return (
@@ -65,10 +80,19 @@ const CategoryPage = () => {
                 {category.name}
               </h1>
               {category.description && (
-                <p className="text-gray-600 mb-8 max-w-3xl">
+                <p className="text-gray-600 mb-6 max-w-3xl">
                   {category.description}
                 </p>
               )}
+              
+              {/* Category Banner Image */}
+              <div className="mb-10 overflow-hidden rounded-lg h-64 w-full">
+                <img 
+                  src={getCategoryImage(category.name)} 
+                  alt={category.name} 
+                  className="w-full h-full object-cover"
+                />
+              </div>
             </>
           )}
           
