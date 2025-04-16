@@ -19,10 +19,6 @@ const CategoryPage = () => {
     queryKey: ["/api/menu-categories"],
   });
   
-  const { data: menuItems, isLoading: loadingItems } = useQuery<MenuItem[]>({
-    queryKey: ["/api/menu-items"],
-  });
-  
   useEffect(() => {
     if (categories) {
       const foundCategory = categories.find(
@@ -37,6 +33,12 @@ const CategoryPage = () => {
       }
     }
   }, [categories, categoryName, navigate]);
+  
+  // Fetch menu items by category ID when category is determined
+  const { data: menuItems, isLoading: loadingItems } = useQuery<MenuItem[]>({
+    queryKey: ["/api/menu-items/category", category?.id],
+    enabled: !!category, // Only run query when category is available
+  });
   
   // Get an image for each category
   const getCategoryImage = (categoryName: string) => {
@@ -53,10 +55,8 @@ const CategoryPage = () => {
     return categoryImages[categoryName.toLowerCase()] || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=1200&q=80';
   };
   
-  // Filter menu items by category ID
-  const categoryItems = menuItems?.filter(
-    item => category && item.categoryId === category.id
-  ) || [];
+  // We're now using the direct API endpoint, so no need to filter
+  const categoryItems = menuItems || [];
   
   return (
     <div className="flex flex-col min-h-screen">
