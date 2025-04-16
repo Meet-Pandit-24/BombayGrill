@@ -50,6 +50,8 @@ export default function ReservationList() {
 
   const { data: reservations, isLoading } = useQuery<Reservation[]>({
     queryKey: ["/api/reservations"],
+    refetchInterval: 10000, // Poll every 10 seconds for new data
+    refetchOnWindowFocus: true, // Refetch when tab gets focus
   });
 
   const updateReservationMutation = useMutation({
