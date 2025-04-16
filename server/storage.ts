@@ -1,12 +1,16 @@
-import { 
-  RestaurantInfo, InsertRestaurantInfo,
-  MenuCategory, InsertMenuCategory,
-  MenuItem, InsertMenuItem,
-  AboutSection, InsertAboutSection,
-  GalleryImage, InsertGalleryImage,
-  Testimonial, InsertTestimonial,
-  Reservation, InsertReservation,
-  User, InsertUser
+import {
+  InsertRestaurantInfo, RestaurantInfo,
+  InsertMenuCategory, MenuCategory,
+  InsertMenuItem, MenuItem,
+  InsertAboutSection, AboutSection,
+  InsertGalleryImage, GalleryImage,
+  InsertTestimonial, Testimonial,
+  InsertReservation, Reservation,
+  InsertUser, User,
+  InsertCustomer, Customer,
+  InsertOrder, Order,
+  InsertOrderItem, OrderItem,
+  InsertPayment, Payment
 } from "@shared/schema";
 
 export interface IStorage {
@@ -58,6 +62,29 @@ export interface IStorage {
   // Users
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
+  updateUserStripeInfo?(userId: number, stripeInfo: { stripeCustomerId: string }): Promise<User | undefined>;
+  
+  // Customers (optional methods for extension)
+  getCustomerByEmail?(email: string): Promise<Customer | undefined>;
+  createCustomer?(customer: InsertCustomer): Promise<Customer>;
+  updateCustomer?(id: number, customer: Partial<InsertCustomer>): Promise<Customer | undefined>;
+  
+  // Orders (optional methods for extension)
+  getAllOrders?(): Promise<Order[]>;
+  getOrderById?(id: number): Promise<Order | undefined>;
+  getOrdersByCustomerId?(customerId: number): Promise<Order[]>;
+  createOrder?(order: InsertOrder): Promise<Order>;
+  updateOrderStatus?(id: number, status: string): Promise<Order | undefined>;
+  updateOrderPaymentStatus?(id: number, paymentStatus: string): Promise<Order | undefined>;
+  
+  // Order Items (optional methods for extension)
+  getOrderItemsByOrderId?(orderId: number): Promise<OrderItem[]>;
+  createOrderItem?(item: InsertOrderItem): Promise<OrderItem>;
+  
+  // Payments (optional methods for extension)
+  getPaymentByOrderId?(orderId: number): Promise<Payment | undefined>;
+  createPayment?(payment: InsertPayment): Promise<Payment>;
+  updatePaymentStatus?(id: number, status: string): Promise<Payment | undefined>;
 }
 
 export class MemStorage implements IStorage {
@@ -560,4 +587,7 @@ export class MemStorage implements IStorage {
   }
 }
 
+// Export the storage implementation
 export const storage = new MemStorage();
+
+// Note: We'll implement database storage in a future update
