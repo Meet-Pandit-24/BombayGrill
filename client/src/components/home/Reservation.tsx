@@ -237,7 +237,10 @@ const Reservation = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>Occasion (Optional)</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <Select 
+                        onValueChange={field.onChange} 
+                        defaultValue={field.value || "none"}
+                      >
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Select an occasion" />
@@ -268,7 +271,12 @@ const Reservation = () => {
                         <Textarea
                           placeholder="Tell us about any special requests or dietary restrictions"
                           className="resize-none h-24"
-                          {...field}
+                          value={field.value || ""}
+                          onChange={field.onChange}
+                          onBlur={field.onBlur}
+                          disabled={field.disabled}
+                          name={field.name}
+                          ref={field.ref}
                         />
                       </FormControl>
                       <FormMessage />

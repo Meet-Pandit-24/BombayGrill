@@ -18,17 +18,11 @@ const Menu = () => {
     queryKey: ["/api/menu-items"],
   });
   
-  // Logging for debugging
-  console.log("Active Category:", activeCategory);
-  console.log("Categories:", categories);
-  console.log("Menu Items:", menuItems);
-  
   const filteredItems = menuItems 
     ? activeCategory === "All" 
       ? menuItems 
       : menuItems.filter(item => {
           const category = categories?.find(cat => cat.id === item.categoryId);
-          console.log("Item category:", item.categoryId, category?.name, "comparing with:", activeCategory);
           return category?.name === activeCategory;
         })
     : [];
@@ -144,12 +138,14 @@ const Menu = () => {
         )}
         
         <div className="text-center mt-12">
-          <Button variant="link" className="text-primary hover:text-primary/80 flex items-center">
-            View Full Menu
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </Button>
+          <a href="/menu">
+            <Button variant="link" className="text-primary hover:text-primary/80 flex items-center">
+              View Full Menu
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-1" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+              </svg>
+            </Button>
+          </a>
         </div>
       </div>
     </section>

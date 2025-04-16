@@ -138,10 +138,10 @@ const AboutPage = () => {
                         <Quote className="h-8 w-8 text-primary/20 mb-4" />
                         <p className="text-gray-700 mb-4 italic">"{testimonial.text}"</p>
                         <div className="flex items-center">
-                          {testimonial.avatar && (
+                          {testimonial.image && (
                             <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
                               <img 
-                                src={testimonial.avatar} 
+                                src={testimonial.image} 
                                 alt={testimonial.name} 
                                 className="w-full h-full object-cover"
                               />
@@ -149,9 +149,7 @@ const AboutPage = () => {
                           )}
                           <div>
                             <p className="font-bold">{testimonial.name}</p>
-                            {testimonial.location && (
-                              <p className="text-sm text-gray-500">{testimonial.location}</p>
-                            )}
+                            <p className="text-sm text-gray-500">{new Date(testimonial.date).toLocaleDateString()}</p>
                           </div>
                         </div>
                       </CardContent>
