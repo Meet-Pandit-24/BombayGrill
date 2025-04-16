@@ -5,7 +5,7 @@ import { Loader2 } from "lucide-react";
 
 import AdminNav from "@/components/admin/AdminNav";
 import Dashboard from "@/pages/admin/Dashboard";
-import MenuEditor from "@/pages/admin/MenuEditor";
+import MenuManagement from "@/pages/admin/MenuManagement";
 import GalleryManager from "@/pages/admin/GalleryManager";
 import ReservationList from "@/pages/admin/ReservationList";
 import InfoSettings from "@/pages/admin/InfoSettings";
@@ -46,7 +46,7 @@ export default function Admin() {
       <main className="flex-1 p-6 lg:p-8 overflow-auto">
         <Switch>
           <Route path="/admin/dashboard" component={Dashboard} />
-          <Route path="/admin/menu" component={MenuEditor} />
+          <Route path="/admin/menu" component={MenuManagement} />
           <Route path="/admin/gallery" component={GalleryManager} />
           <Route path="/admin/reservations" component={ReservationList} />
           <Route path="/admin/settings" component={InfoSettings} />
