@@ -449,8 +449,13 @@ export default function MenuManagement() {
                                   <FormLabel>Description</FormLabel>
                                   <FormControl>
                                     <Textarea 
-                                      {...field} 
-                                      placeholder="Brief description of this category..." 
+                                      placeholder="Brief description of this category..."
+                                      value={field.value || ""}
+                                      onChange={field.onChange}
+                                      onBlur={field.onBlur}
+                                      disabled={field.disabled}
+                                      name={field.name}
+                                      ref={field.ref}
                                     />
                                   </FormControl>
                                   <FormMessage />
@@ -667,8 +672,13 @@ export default function MenuManagement() {
                                   <FormLabel>Description</FormLabel>
                                   <FormControl>
                                     <Textarea 
-                                      {...field} 
-                                      placeholder="Brief description of this dish..." 
+                                      placeholder="Brief description of this dish..."
+                                      value={field.value || ""}
+                                      onChange={field.onChange}
+                                      onBlur={field.onBlur}
+                                      disabled={field.disabled}
+                                      name={field.name}
+                                      ref={field.ref}
                                     />
                                   </FormControl>
                                   <FormMessage />
