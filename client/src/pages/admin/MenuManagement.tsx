@@ -9,12 +9,12 @@ import AdminNav from "@/components/admin/AdminNav";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -58,7 +58,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { 
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -70,31 +70,31 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Separator } from "@/components/ui/separator";
-import { 
-  Pencil, 
-  Trash, 
-  Plus, 
-  FireExtinguisher, 
-  Flame, 
-  Leaf 
+import {
+  Pencil,
+  Trash,
+  Plus,
+  FireExtinguisher,
+  Flame,
+  Leaf
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Extended schemas for admin forms
 const categoryFormSchema = insertMenuCategorySchema.extend({
   displayOrder: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)), 
+    (val) => (val === '' ? undefined : Number(val)),
     z.number().min(1, "Display order must be at least 1").optional()
   ),
 });
 
 const menuItemFormSchema = insertMenuItemSchema.extend({
   categoryId: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)), 
+    (val) => (val === '' ? undefined : Number(val)),
     z.number().min(1, "Category ID is required")
   ),
   displayOrder: z.preprocess(
-    (val) => (val === '' ? undefined : Number(val)), 
+    (val) => (val === '' ? undefined : Number(val)),
     z.number().min(1, "Display order must be at least 1").optional()
   ),
   price: z.string().min(1, "Price is required"),
@@ -118,16 +118,16 @@ export default function MenuManagement() {
   const [deleteConfirmId, setDeleteConfirmId] = useState<number | null>(null);
   const [isDeleteItemDialog, setIsDeleteItemDialog] = useState<boolean>(false);
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  
+
   // Fetch menu categories and items
   const { data: categories, isLoading: loadingCategories } = useQuery<MenuCategory[]>({
     queryKey: ["/api/menu-categories"],
   });
-  
+
   const { data: menuItems, isLoading: loadingItems } = useQuery<MenuItem[]>({
     queryKey: ["/api/menu-items"],
   });
-  
+
   // Category form
   const categoryForm = useForm<CategoryFormValues>({
     resolver: zodResolver(categoryFormSchema),
@@ -137,7 +137,7 @@ export default function MenuManagement() {
       displayOrder: 1,
     },
   });
-  
+
   // Menu item form
   const menuItemForm = useForm<MenuItemFormValues>({
     resolver: zodResolver(menuItemFormSchema),
@@ -155,7 +155,7 @@ export default function MenuManagement() {
       displayOrder: 1,
     },
   });
-  
+
   // Reset forms when dialog closes
   const handleDialogOpenChange = (open: boolean) => {
     setDialogOpen(open);
@@ -169,7 +169,7 @@ export default function MenuManagement() {
       }
     }
   };
-  
+
   // Mutations for categories
   const createCategoryMutation = useMutation({
     mutationFn: async (data: CategoryFormValues) => {
@@ -193,7 +193,7 @@ export default function MenuManagement() {
       });
     }
   });
-  
+
   const updateCategoryMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number, data: CategoryFormValues }) => {
       const res = await apiRequest('PATCH', `/api/menu-categories/${id}`, data);
@@ -217,7 +217,7 @@ export default function MenuManagement() {
       });
     }
   });
-  
+
   const deleteCategoryMutation = useMutation({
     mutationFn: async (id: number) => {
       const res = await apiRequest('DELETE', `/api/menu-categories/${id}`);
@@ -240,7 +240,7 @@ export default function MenuManagement() {
       });
     }
   });
-  
+
   // Mutations for menu items
   const createMenuItemMutation = useMutation({
     mutationFn: async (data: MenuItemFormValues) => {
@@ -264,10 +264,10 @@ export default function MenuManagement() {
       });
     }
   });
-  
+
   const updateMenuItemMutation = useMutation({
     mutationFn: async ({ id, data }: { id: number, data: MenuItemFormValues }) => {
-      const res = await apiRequest('PATCH', `/api/menu-items/${id}`, data);
+      const res = await apiRequest('PUT', `/api/menu-items/${id}`, data);
       return res.json();
     },
     onSuccess: () => {
@@ -288,7 +288,7 @@ export default function MenuManagement() {
       });
     }
   });
-  
+
   const deleteMenuItemMutation = useMutation({
     mutationFn: async (id: number) => {
       const res = await apiRequest('DELETE', `/api/menu-items/${id}`);
@@ -311,7 +311,7 @@ export default function MenuManagement() {
       });
     }
   });
-  
+
   // Form Submit handlers
   const onCategorySubmit = (data: CategoryFormValues) => {
     if (editingCategory) {
@@ -320,7 +320,7 @@ export default function MenuManagement() {
       createCategoryMutation.mutate(data);
     }
   };
-  
+
   const onMenuItemSubmit = (data: MenuItemFormValues) => {
     if (editingMenuItem) {
       updateMenuItemMutation.mutate({ id: editingMenuItem.id, data });
@@ -328,7 +328,7 @@ export default function MenuManagement() {
       createMenuItemMutation.mutate(data);
     }
   };
-  
+
   // Edit category handler
   const handleEditCategory = (category: MenuCategory) => {
     setEditingCategory(category);
@@ -339,7 +339,7 @@ export default function MenuManagement() {
     });
     setDialogOpen(true);
   };
-  
+
   // Edit menu item handler
   const handleEditMenuItem = (item: MenuItem) => {
     setEditingMenuItem(item);
@@ -358,13 +358,13 @@ export default function MenuManagement() {
     });
     setDialogOpen(true);
   };
-  
+
   // Delete handlers
   const handleDeleteClick = (id: number, isItem: boolean) => {
     setDeleteConfirmId(id);
     setIsDeleteItemDialog(isItem);
   };
-  
+
   const handleConfirmDelete = () => {
     if (deleteConfirmId) {
       if (isDeleteItemDialog) {
@@ -374,23 +374,23 @@ export default function MenuManagement() {
       }
     }
   };
-  
+
   // Get category name by ID
   const getCategoryName = (categoryId: number) => {
     if (!categories) return "Unknown";
     const category = categories.find(cat => cat.id === categoryId);
     return category ? category.name : "Unknown";
   };
-  
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-8">Menu Management</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="md:col-span-1">
           <AdminNav className="sticky top-24" />
         </div>
-        
+
         <div className="md:col-span-3">
           <Card>
             <CardHeader>
@@ -403,7 +403,7 @@ export default function MenuManagement() {
                   <TabsTrigger value="categories">Categories</TabsTrigger>
                   <TabsTrigger value="items">Menu Items</TabsTrigger>
                 </TabsList>
-                
+
                 {/* Categories Tab */}
                 <TabsContent value="categories">
                   <div className="flex justify-between items-center mb-4">
@@ -419,12 +419,12 @@ export default function MenuManagement() {
                         <DialogHeader>
                           <DialogTitle>{editingCategory ? "Edit" : "Add"} Menu Category</DialogTitle>
                           <DialogDescription>
-                            {editingCategory 
-                              ? "Update the details of an existing menu category." 
+                            {editingCategory
+                              ? "Update the details of an existing menu category."
                               : "Create a new menu category to organize menu items."}
                           </DialogDescription>
                         </DialogHeader>
-                        
+
                         <Form {...categoryForm}>
                           <form onSubmit={categoryForm.handleSubmit(onCategorySubmit)} className="space-y-4">
                             <FormField
@@ -440,7 +440,7 @@ export default function MenuManagement() {
                                 </FormItem>
                               )}
                             />
-                            
+
                             <FormField
                               control={categoryForm.control}
                               name="description"
@@ -448,7 +448,7 @@ export default function MenuManagement() {
                                 <FormItem>
                                   <FormLabel>Description</FormLabel>
                                   <FormControl>
-                                    <Textarea 
+                                    <Textarea
                                       placeholder="Brief description of this category..."
                                       value={field.value || ""}
                                       onChange={field.onChange}
@@ -462,7 +462,7 @@ export default function MenuManagement() {
                                 </FormItem>
                               )}
                             />
-                            
+
                             <FormField
                               control={categoryForm.control}
                               name="displayOrder"
@@ -470,9 +470,9 @@ export default function MenuManagement() {
                                 <FormItem>
                                   <FormLabel>Display Order</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      type="number" 
-                                      min="1" 
+                                    <Input
+                                      type="number"
+                                      min="1"
                                       {...field}
                                       onChange={(e) => field.onChange(e.target.valueAsNumber || '')}
                                       value={field.value}
@@ -485,18 +485,18 @@ export default function MenuManagement() {
                                 </FormItem>
                               )}
                             />
-                            
+
                             <DialogFooter>
-                              <Button 
+                              <Button
                                 type="submit"
-                                disabled={categoryForm.formState.isSubmitting || 
-                                          createCategoryMutation.isPending ||
-                                          updateCategoryMutation.isPending}
+                                disabled={categoryForm.formState.isSubmitting ||
+                                  createCategoryMutation.isPending ||
+                                  updateCategoryMutation.isPending}
                               >
-                                {categoryForm.formState.isSubmitting || 
-                                 createCategoryMutation.isPending ||
-                                 updateCategoryMutation.isPending 
-                                  ? "Saving..." 
+                                {categoryForm.formState.isSubmitting ||
+                                  createCategoryMutation.isPending ||
+                                  updateCategoryMutation.isPending
+                                  ? "Saving..."
                                   : editingCategory ? "Update Category" : "Add Category"}
                               </Button>
                             </DialogFooter>
@@ -505,7 +505,7 @@ export default function MenuManagement() {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  
+
                   {loadingCategories ? (
                     <div className="text-center py-8">Loading categories...</div>
                   ) : !categories || categories.length === 0 ? (
@@ -531,18 +531,18 @@ export default function MenuManagement() {
                             <TableCell className="text-center">{category.displayOrder}</TableCell>
                             <TableCell className="text-center">
                               <div className="flex justify-center space-x-2">
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
+                                <Button
+                                  variant="outline"
+                                  size="sm"
                                   onClick={() => handleEditCategory(category)}
                                 >
                                   <Pencil className="h-4 w-4" />
                                 </Button>
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <Button 
-                                      variant="outline" 
-                                      size="sm" 
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
                                       className="text-red-500"
                                       onClick={() => handleDeleteClick(category.id, false)}
                                     >
@@ -560,7 +560,7 @@ export default function MenuManagement() {
                                       <AlertDialogCancel onClick={() => setDeleteConfirmId(null)}>
                                         Cancel
                                       </AlertDialogCancel>
-                                      <AlertDialogAction 
+                                      <AlertDialogAction
                                         onClick={handleConfirmDelete}
                                         className="bg-red-500 text-white hover:bg-red-600"
                                         disabled={deleteCategoryMutation.isPending}
@@ -578,7 +578,7 @@ export default function MenuManagement() {
                     </Table>
                   )}
                 </TabsContent>
-                
+
                 {/* Menu Items Tab */}
                 <TabsContent value="items">
                   <div className="flex justify-between items-center mb-4">
@@ -594,12 +594,12 @@ export default function MenuManagement() {
                         <DialogHeader>
                           <DialogTitle>{editingMenuItem ? "Edit" : "Add"} Menu Item</DialogTitle>
                           <DialogDescription>
-                            {editingMenuItem 
-                              ? "Update the details of an existing menu item." 
+                            {editingMenuItem
+                              ? "Update the details of an existing menu item."
                               : "Add a new item to your restaurant menu."}
                           </DialogDescription>
                         </DialogHeader>
-                        
+
                         <Form {...menuItemForm}>
                           <form onSubmit={menuItemForm.handleSubmit(onMenuItemSubmit)} className="space-y-4">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -616,7 +616,7 @@ export default function MenuManagement() {
                                   </FormItem>
                                 )}
                               />
-                              
+
                               <FormField
                                 control={menuItemForm.control}
                                 name="price"
@@ -631,14 +631,14 @@ export default function MenuManagement() {
                                 )}
                               />
                             </div>
-                            
+
                             <FormField
                               control={menuItemForm.control}
                               name="categoryId"
                               render={({ field }) => (
                                 <FormItem>
                                   <FormLabel>Category</FormLabel>
-                                  <Select 
+                                  <Select
                                     onValueChange={(value) => field.onChange(parseInt(value))}
                                     defaultValue={field.value?.toString() || ""}
                                     value={field.value?.toString() || ""}
@@ -650,8 +650,8 @@ export default function MenuManagement() {
                                     </FormControl>
                                     <SelectContent>
                                       {categories?.map((category) => (
-                                        <SelectItem 
-                                          key={category.id} 
+                                        <SelectItem
+                                          key={category.id}
                                           value={category.id.toString()}
                                         >
                                           {category.name}
@@ -663,7 +663,7 @@ export default function MenuManagement() {
                                 </FormItem>
                               )}
                             />
-                            
+
                             <FormField
                               control={menuItemForm.control}
                               name="description"
@@ -671,7 +671,7 @@ export default function MenuManagement() {
                                 <FormItem>
                                   <FormLabel>Description</FormLabel>
                                   <FormControl>
-                                    <Textarea 
+                                    <Textarea
                                       placeholder="Brief description of this dish..."
                                       value={field.value || ""}
                                       onChange={field.onChange}
@@ -685,7 +685,7 @@ export default function MenuManagement() {
                                 </FormItem>
                               )}
                             />
-                            
+
                             <FormField
                               control={menuItemForm.control}
                               name="image"
@@ -693,9 +693,9 @@ export default function MenuManagement() {
                                 <FormItem>
                                   <FormLabel>Image URL</FormLabel>
                                   <FormControl>
-                                    <Input 
-                                      {...field} 
-                                      placeholder="https://example.com/image.jpg" 
+                                    <Input
+                                      {...field}
+                                      placeholder="https://example.com/image.jpg"
                                       value={field.value || ""}
                                     />
                                   </FormControl>
@@ -706,7 +706,7 @@ export default function MenuManagement() {
                                 </FormItem>
                               )}
                             />
-                            
+
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                               <FormField
                                 control={menuItemForm.control}
@@ -714,7 +714,7 @@ export default function MenuManagement() {
                                 render={({ field }) => (
                                   <FormItem>
                                     <FormLabel>Spice Level</FormLabel>
-                                    <Select 
+                                    <Select
                                       onValueChange={field.onChange}
                                       defaultValue={field.value || "None"}
                                       value={field.value || "None"}
@@ -736,7 +736,7 @@ export default function MenuManagement() {
                                   </FormItem>
                                 )}
                               />
-                              
+
                               <FormField
                                 control={menuItemForm.control}
                                 name="displayOrder"
@@ -744,9 +744,9 @@ export default function MenuManagement() {
                                   <FormItem>
                                     <FormLabel>Display Order</FormLabel>
                                     <FormControl>
-                                      <Input 
-                                        type="number" 
-                                        min="1" 
+                                      <Input
+                                        type="number"
+                                        min="1"
                                         {...field}
                                         onChange={(e) => field.onChange(e.target.valueAsNumber || '')}
                                         value={field.value}
@@ -757,7 +757,7 @@ export default function MenuManagement() {
                                 )}
                               />
                             </div>
-                            
+
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                               <FormField
                                 control={menuItemForm.control}
@@ -776,7 +776,7 @@ export default function MenuManagement() {
                                   </FormItem>
                                 )}
                               />
-                              
+
                               <FormField
                                 control={menuItemForm.control}
                                 name="isVegan"
@@ -794,7 +794,7 @@ export default function MenuManagement() {
                                   </FormItem>
                                 )}
                               />
-                              
+
                               <FormField
                                 control={menuItemForm.control}
                                 name="isGlutenFree"
@@ -812,7 +812,7 @@ export default function MenuManagement() {
                                   </FormItem>
                                 )}
                               />
-                              
+
                               <FormField
                                 control={menuItemForm.control}
                                 name="featured"
@@ -831,18 +831,18 @@ export default function MenuManagement() {
                                 )}
                               />
                             </div>
-                            
+
                             <DialogFooter>
-                              <Button 
+                              <Button
                                 type="submit"
-                                disabled={menuItemForm.formState.isSubmitting || 
-                                          createMenuItemMutation.isPending ||
-                                          updateMenuItemMutation.isPending}
+                                disabled={menuItemForm.formState.isSubmitting ||
+                                  createMenuItemMutation.isPending ||
+                                  updateMenuItemMutation.isPending}
                               >
-                                {menuItemForm.formState.isSubmitting || 
-                                 createMenuItemMutation.isPending ||
-                                 updateMenuItemMutation.isPending 
-                                  ? "Saving..." 
+                                {menuItemForm.formState.isSubmitting ||
+                                  createMenuItemMutation.isPending ||
+                                  updateMenuItemMutation.isPending
+                                  ? "Saving..."
                                   : editingMenuItem ? "Update Item" : "Add Item"}
                               </Button>
                             </DialogFooter>
@@ -851,7 +851,7 @@ export default function MenuManagement() {
                       </DialogContent>
                     </Dialog>
                   </div>
-                  
+
                   {loadingItems ? (
                     <div className="text-center py-8">Loading menu items...</div>
                   ) : !menuItems || menuItems.length === 0 ? (
@@ -897,18 +897,18 @@ export default function MenuManagement() {
                             </TableCell>
                             <TableCell className="text-center">
                               <div className="flex justify-center space-x-2">
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
+                                <Button
+                                  variant="outline"
+                                  size="sm"
                                   onClick={() => handleEditMenuItem(item)}
                                 >
                                   <Pencil className="h-4 w-4" />
                                 </Button>
                                 <AlertDialog>
                                   <AlertDialogTrigger asChild>
-                                    <Button 
-                                      variant="outline" 
-                                      size="sm" 
+                                    <Button
+                                      variant="outline"
+                                      size="sm"
                                       className="text-red-500"
                                       onClick={() => handleDeleteClick(item.id, true)}
                                     >
@@ -926,7 +926,7 @@ export default function MenuManagement() {
                                       <AlertDialogCancel onClick={() => setDeleteConfirmId(null)}>
                                         Cancel
                                       </AlertDialogCancel>
-                                      <AlertDialogAction 
+                                      <AlertDialogAction
                                         onClick={handleConfirmDelete}
                                         className="bg-red-500 text-white hover:bg-red-600"
                                         disabled={deleteMenuItemMutation.isPending}
